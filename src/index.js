@@ -42,7 +42,7 @@ const avgSum = function (amount, months, interestRate, selector) {
 
     table.forEach((row) => sum += selector(row));
 
-    return Math.ceil(sum / months);
+    return sum / months;
 }
 
 /**
@@ -56,7 +56,7 @@ export function calculateAnnuity(amount, months, interestRate) {
     const annuity = (amount * interestRate)
         / (1 - (Math.pow(1 + interestRate, negNumberOfPeriods)));
         
-    return Math.ceil(annuity);
+    return Math.round(annuity);
 }
 
 /**
@@ -65,7 +65,7 @@ export function calculateAnnuity(amount, months, interestRate) {
  * @param {number} interestRate - Interest rate in decimal (0.02)
  */
 export function calculateAvgInterestCost(amount, months, interestRate) {
-    return avgSum(amount, months, interestRate, (row) => row.interestFee);
+    return Math.round(avgSum(amount, months, interestRate, (row) => row.interestFee));
 }
 
 /**
@@ -74,5 +74,9 @@ export function calculateAvgInterestCost(amount, months, interestRate) {
  * @param {number} interestRate - Interest rate in decimal (0.02)
  */
 export function calculateAvgAmortizeCost(amount, months, interestRate) {
-    return avgSum(amount, months, interestRate, (row) => row.amortize);
+    return Math.round(avgSum(amount, months, interestRate, (row) => row.amortize));
+}
+
+export function getAnnuityTable(amount, months, interestRate) {
+    return annuityTable(amount, months, interestRate);
 }
